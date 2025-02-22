@@ -399,7 +399,7 @@ export default {
 					});
 				}
 			} else {
-				if (fakePage) url.hostname = 'registry.hub.docker.com';
+				if (fakePage) url.hostname = 'hub.docker.com';
 				if (url.searchParams.get('q')?.includes('library/') && url.searchParams.get('q') != 'library/') {
 					const search = url.searchParams.get('q');
 					url.searchParams.set('q', search.replace('library/', ''));
@@ -514,6 +514,8 @@ function httpHandler(req, pathname, baseHost) {
 	let rawLen = '';
 
 	const reqHdrNew = new Headers(reqHdrRaw);
+
+	reqHdrNew.delete("Authorization"); // 修复s3错误
 
 	const refer = reqHdrNew.get('referer');
 
